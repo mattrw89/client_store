@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ClientStoreTestApp')
-  .factory('ClientStore', function (PhoneResource) {
+  .factory('ClientStore', function ($injector) {
     // Service logic
     // ...
     var ClientStore = {};
@@ -32,9 +32,20 @@ angular.module('ClientStoreTestApp')
 
     ClientStore.get = function(model, id) {
       try {
-        return this.all[model][id];
+        if ( angular.isArray(id) ) {
+          console.log('array!');
+          console.log(model + id);
+          var data = [];
+          _.each(id, function(x) {
+            data.push(this.all[model][x]);
+          }, this);
+          return data;
+        } else {
+          return this.all[model][id];
+        }
       }
       catch(err) {
+        console.log(err);
         console.log(model + '/' + id + ' not found');
         return null;
       }
@@ -53,14 +64,20 @@ angular.module('ClientStoreTestApp')
             // if so, update the entry
             if (_.isUndefined(this.all[key][obj.id])) {
               if (key === 'phone_number') {
-                this.all[key][obj.id] = PhoneResource.PhoneNumber(obj);
-              } else {
+                var res = $injector.get('PhoneResource');
+                this.all[key][obj.id] = new res.PhoneNumber(obj);
+              } else if (key === 'user') {
+                var res = $injector.get('UserResource');
+                this.all[key][obj.id] = new res.User(obj);
+              }
+              else {
                 this.all[key][obj.id] = obj;
               }
             } else {
               // do the same thing for now? maybe an event will need to be fired
               if (key === 'phone_number') {
-                this.all[key][obj.id] = PhoneResource.PhoneNumber(obj);
+                var existingEntry = this.all[key][obj.id];
+                existingEntry.update(obj);
               } else {
                 this.all[key][obj.id] = obj;
               }

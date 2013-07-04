@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ClientStoreTestApp')
-  .factory('PhoneResource', function ($rootScope, $injector) {
+  .factory('PhoneResource', function () {
     // Service logic
     // ...
     var PhoneResource = {};
@@ -10,13 +10,10 @@ angular.module('ClientStoreTestApp')
       this.d = hash;
 
       this.update = function(hash) {
-        $rootScope.$broadcast('updatePhoneNumber', {'id':this.id})
+        console.log('update called');
+        console.log(this.d.id);
+        this.d = hash;
       };
-
-      $rootScope.$on('updatePhoneNumber', function(data) {
-        var cs = $injector.get('ClientStore');
-        this.d = cs.get('phone_number', data.id);
-      });
 
       return this;
     };

@@ -1,19 +1,48 @@
 <div class="hero-unit">
   <h1>'Allo, 'Allo!</h1>
-  <p>You now have</p>
-  <ul>
-      <li ng-repeat="thing in awesomeThings">{{thing}}</li>
-  </ul>
-  <p>installed.</p>
-  <h3>Enjoy coding! - Yeoman</h3>
 
-  <div>
-    {{user | json}}
+  <div class="well">
+    <p>MainController</p>
+    <div>
+      <b>User:</b> {{user.d | json}}
+    </div>
+
+    <div><b>User phones:</b> {{userPhones | json}}</div>
+    <button ng-click="refreshUserPhones()">Update User Phones</button>
+
+    <div><b>Phone1:</b> {{ firstPhone.d | json }}</div>
+
+    <div><b>Phone2:</b> {{ secondPhone.d  | json}}</div>
+
+    <input type="text" ng-model="phoneNumberField">
+    <button ng-click="updatePhoneNumber()">Update Phone Number 1</button>
+
+    <br/>
+    <input type="number" ng-model="numberToAdd">
+    <button ng-click="addPhoneIdToUser()">Add Phone {{numberToAdd}} to User</button>
   </div>
 
-  <button ng-click="updatePhoneNumber()">Update Phone Number</button>
+  <div ng-controller="OtherCtrl" class="well">
+    <p>OtherController</p>
 
-  <div>{{ firstPhone | json }}</div>
+    <div><b>Phone1:</b> {{phone1.d}}</div>
+    <div><b>Phone2:</b> {{phone2.d}}</div>
 
-  <div>{{ directObject  | json}}</div>
+    <input type="text" ng-model="phoneNumberField2">
+    <button ng-click="updatePhoneNumber()">Update Phone Number 2</button>
+  </div>
+
+  <div ng-controller="CreatePhoneNumberCtrl" class="well">
+    <p>CreatePhoneNumberCtrl</p>
+
+    <div><b>Add a phone number entry</b></div>
+    <input type="text" ng-model="newPhoneNumber">
+    <button ng-click="addPhoneNumber()">Add Phone Number</button>
+
+    <br/>
+
+    <div> allPhoneNumbersInClientStore</div>
+    <div>{{allPhoneNumbersInClientStore}}</div>
+
+  </div>
 </div>
