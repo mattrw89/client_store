@@ -38,14 +38,14 @@ angular.module('ClientStoreTestApp')
     ClientStore.parseJson(data1);
 
     $scope.user = ClientStore.get('user',1);
-    $scope.firstPhone = ClientStore.get('phone_number',2);
+    $scope.firstPhone = ClientStore.get('phone_number',1);
 
 
     $scope.updatePhoneNumber = function() {
       ClientStore.parseJson(data2);
     }
 
-    $scope.directObject = ClientStore;
+    $scope.directObject = ClientStore.all.phone_number[2];
 
     $scope.awesomeThings = [
       'HTML5 Boilerplate',

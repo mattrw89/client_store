@@ -1,16 +1,26 @@
 'use strict';
 
 angular.module('ClientStoreTestApp')
-  .factory('PhoneResource', function () {
+  .factory('PhoneResource', function ($rootScope, $injector) {
     // Service logic
     // ...
+    var PhoneResource = {};
 
-    var meaningOfLife = 42;
+    PhoneResource.PhoneNumber = function(hash) {
+      this.d = hash;
 
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
-      }
+      this.update = function(hash) {
+        $rootScope.$broadcast('updatePhoneNumber', {'id':this.id})
+      };
+
+      $rootScope.$on('updatePhoneNumber', function(data) {
+        var cs = $injector.get('ClientStore');
+        this.d = cs.get('phone_number', data.id);
+      });
+
+      return this;
     };
+
+    return PhoneResource;
+
   });
